@@ -1,6 +1,6 @@
 ---
 - name: Collect log files from Control Node to Manage Node
-  hosts: servers
+  hosts: all
   tasks:
     - name: Copy log file to Manage Node
       ansible.builtin.fetch:
