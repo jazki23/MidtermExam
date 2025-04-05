@@ -1,5 +1,5 @@
 ---
-- name: Setup Firewall on Ubuntu and CentOS
+- name: Setup Firewall on Ubuntu and centos
   hosts: servers
   become: yes
   tasks:
@@ -9,7 +9,7 @@
         state: present
       when: ansible_os_family == "Debian"
 
-    - name: Install Firewalld on CentOS
+    - name: Install Firewalld on centos
       yum:
         name: firewalld
         state: present
@@ -22,7 +22,7 @@
         enabled: yes
       when: ansible_os_family == "Debian"
 
-    - name: Start and enable Firewalld on CentOS
+    - name: Start and enable Firewalld on centos
       service:
         name: firewalld
         state: started
