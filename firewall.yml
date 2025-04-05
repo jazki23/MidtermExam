@@ -1,6 +1,6 @@
 ---
 - name: Setup Firewall on Ubuntu and CentOS
-  hosts: all
+  hosts: servers
   become: yes
   tasks:
     - name: Install UFW on Ubuntu
