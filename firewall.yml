@@ -1,0 +1,58 @@
+---
+- name: Setup Firewall on Ubuntu and CentOS
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install UFW on Ubuntu
+      apt:
+        name: ufw
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Install Firewalld on CentOS
+      yum:
+        name: firewalld
+        state: present
+      when: ansible_os_family == "RedHat"
+
+    - name: Start and enable UFW on Ubuntu
+      service:
+        name: ufw
+        state: started
+        enabled: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Start and enable Firewalld on CentOS
+      service:
+        name: firewalld
+        state: started
+        enabled: yes
+      when: ansible_os_family == "RedHat"
+
+    - name: Allow SSH on UFW (Ubuntu)
+      ufw:
+        rule: allow
+        name: OpenSSH
+      when: ansible_os_family == "Debian"
+
+    - name: Allow SSH on Firewalld (CentOS)
+      firewalld:
+        service: ssh
+        permanent: yes
+        state: enabled
+      when: ansible_os_family == "RedHat"
+
+    - name: Set default zone to drop on Firewalld (CentOS)
+      firewalld:
+        zone: drop
+        permanent: yes
+        state: enabled
+      when: ansible_os_family == "RedHat"
+
+    - name: Reload UFW on Ubuntu
+      command: ufw reload
+      when: ansible_os_family == "Debian"
+
+    - name: Reload Firewalld on CentOS
+      command: firewall-cmd --reload
+      when: ansible_os_family == "RedHat"
