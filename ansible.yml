@@ -1,14 +1,7 @@
 ---
 - name: Collect log files from Control Node to Manage Node
-  hosts: all
-  become: yes  # Use this if you need elevated privileges to read the log file
+  hosts: servers
   tasks:
-    - name: Ensure logs directory exists on Control Node
-      ansible.builtin.file:
-        path: /tmp/logs/
-        state: directory
-      delegate_to: localhost  # Ensure this task runs on the control node
-
     - name: Copy log file to Manage Node
       ansible.builtin.fetch:
         src: /var/log/syslog
